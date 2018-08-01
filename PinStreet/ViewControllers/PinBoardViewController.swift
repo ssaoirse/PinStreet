@@ -16,6 +16,12 @@ class PinBoardViewController: UICollectionViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // Set ourselves as the delegate for the Layout delegate.
+        if let layout = collectionView?.collectionViewLayout as? PinBoardLayout {
+            layout.delegate = self
+        }
+        
         if let patternImage = UIImage(named: "Pattern") {
             view.backgroundColor = UIColor(patternImage: patternImage)
         }
@@ -53,5 +59,13 @@ extension PinBoardViewController: UICollectionViewDelegateFlowLayout {
         let itemSize = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
         return CGSize(width: itemSize, height: itemSize)
     }
-    
+}
+
+
+// MARK: - PinBoardLayout Delegate extension.
+extension PinBoardViewController: PinBoardLayoutDelegate {
+    // Returns the image height of the current image.
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        return items[indexPath.item].image.size.height
+    }
 }

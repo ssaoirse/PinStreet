@@ -14,9 +14,10 @@
 		0402C4172110D39F00DC21C2 /* WebServiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0402C4162110D39F00DC21C2 /* WebServiceController.swift */; };
 		0402C41A2110D3F100DC21C2 /* PinBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0402C4192110D3F100DC21C2 /* PinBoardItem.swift */; };
 		2D9AEE82211191B900B504D8 /* PinBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE81211191B900B504D8 /* PinBoardViewController.swift */; };
-		2D9AEE85211192A900B504D8 /* PinBoardItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE84211192A900B504D8 /* PinBoardItemCell.swift */; };
 		2D9AEE882111967300B504D8 /* Photos.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2D9AEE872111967300B504D8 /* Photos.plist */; };
 		2D9AEE8A2111968D00B504D8 /* Photos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D9AEE892111968D00B504D8 /* Photos.xcassets */; };
+		2D9AEE8D2111BEEF00B504D8 /* PinBoardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE8C2111BEEF00B504D8 /* PinBoardLayout.swift */; };
+		2D9AEE8F2111BF1B00B504D8 /* PinBoardItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE8E2111BF1B00B504D8 /* PinBoardItemCell.swift */; };
 		367938D2B075295B8E88B4DB /* Pods_PinStreet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5332F870CDF840B061E81D /* Pods_PinStreet.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,9 +31,10 @@
 		0402C4162110D39F00DC21C2 /* WebServiceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebServiceController.swift; sourceTree = "<group>"; };
 		0402C4192110D3F100DC21C2 /* PinBoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardItem.swift; sourceTree = "<group>"; };
 		2D9AEE81211191B900B504D8 /* PinBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PinBoardViewController.swift; path = PinStreet/ViewControllers/PinBoardViewController.swift; sourceTree = SOURCE_ROOT; };
-		2D9AEE84211192A900B504D8 /* PinBoardItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PinBoardItemCell.swift; path = PinStreet/ViewControllers/PinBoardItemCell.swift; sourceTree = SOURCE_ROOT; };
 		2D9AEE872111967300B504D8 /* Photos.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Photos.plist; sourceTree = "<group>"; };
 		2D9AEE892111968D00B504D8 /* Photos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Photos.xcassets; sourceTree = "<group>"; };
+		2D9AEE8C2111BEEF00B504D8 /* PinBoardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PinBoardLayout.swift; path = PinStreet/ViewControllers/PinBoardLayout.swift; sourceTree = SOURCE_ROOT; };
+		2D9AEE8E2111BF1B00B504D8 /* PinBoardItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinBoardItemCell.swift; path = PinStreet/Views/PinBoardItemCell.swift; sourceTree = SOURCE_ROOT; };
 		3C5332F870CDF840B061E81D /* Pods_PinStreet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PinStreet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3B992B00F4CA78939594B46 /* Pods-PinStreet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinStreet.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinStreet/Pods-PinStreet.release.xcconfig"; sourceTree = "<group>"; };
 		C8F22904917969C5D6F1CD65 /* Pods-PinStreet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinStreet.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinStreet/Pods-PinStreet.debug.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				2D9AEE81211191B900B504D8 /* PinBoardViewController.swift */,
+				2D9AEE8C2111BEEF00B504D8 /* PinBoardLayout.swift */,
 			);
 			name = ViewControllers;
 			path = "New Group";
@@ -130,7 +133,7 @@
 		2D9AEE832111926200B504D8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2D9AEE84211192A900B504D8 /* PinBoardItemCell.swift */,
+				2D9AEE8E2111BF1B00B504D8 /* PinBoardItemCell.swift */,
 			);
 			name = Views;
 			path = "New Group1";
@@ -276,9 +279,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D9AEE8D2111BEEF00B504D8 /* PinBoardLayout.swift in Sources */,
 				0402C4172110D39F00DC21C2 /* WebServiceController.swift in Sources */,
-				2D9AEE85211192A900B504D8 /* PinBoardItemCell.swift in Sources */,
 				0402C4042110CEFF00DC21C2 /* AppDelegate.swift in Sources */,
+				2D9AEE8F2111BF1B00B504D8 /* PinBoardItemCell.swift in Sources */,
 				0402C41A2110D3F100DC21C2 /* PinBoardItem.swift in Sources */,
 				2D9AEE82211191B900B504D8 /* PinBoardViewController.swift in Sources */,
 			);
