@@ -13,6 +13,19 @@ class PinBoardViewController: UICollectionViewController {
 
     var items = [Photo]()//Photo.allPhotos()
     
+    // During the first load, activity indicator is displayed,
+    // At other times, Pull to refresh, activity indicator is hidden.
+    var isFirstLoad: Bool = false
+    
+    // refresh control for pull to refresh:
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self,
+                                 action: #selector(fetchPinBoardItems),
+                                 for: UIControlEvents.valueChanged)
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,6 +43,10 @@ class PinBoardViewController: UICollectionViewController {
         collectionView?.contentInset = UIEdgeInsets(top: 23, left: 16, bottom: 10, right: 16)
         
         // Initiate request to fetch items.
+        // Add the refresh control.
+        self.collectionView?.addSubview(self.refreshControl)
+        // Set first load flag to show Activity indicator.
+        self.isFirstLoad = true
         fetchPinBoardItems()
     }
 
@@ -44,18 +61,42 @@ class PinBoardViewController: UICollectionViewController {
     
     
     // Fetch the pin board items from server.
-    func fetchPinBoardItems() {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+    @objc func fetchPinBoardItems() {
+        self.showActivityIndicator()
         let pinBoardController = PinBoardController()
         pinBoardController.fetchPinBoardItems(
         success: { [unowned self](pinBoardItems) in
-            MBProgressHUD.hide(for: self.view, animated: true)
-            self.items.append(contentsOf: Photo.allPhotos())
-            self.collectionView?.reloadData()
+            // Initiate request to load image.
+            DispatchQueue.main.async {
+                let newItems = Photo.allPhotos()
+                print("Before:\(self.items.count)")
+                self.items.append(contentsOf: newItems)
+                print("After:\(self.items.count)")
+                self.collectionView?.reloadData()
+                self.hideActivityIndicator()
+            }
         },
         failure: { (errorMsg) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+            self.hideActivityIndicator()
         })
+    }
+    
+    func showActivityIndicator() {
+        if self.isFirstLoad {
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+        }
+    }
+    
+    func hideActivityIndicator() {
+        if self.refreshControl.isRefreshing {
+            self.refreshControl.endRefreshing()
+        }
+        
+        // Activity indicator only for first time launch.
+        if self.isFirstLoad {
+            self.isFirstLoad = false
+            MBProgressHUD.hide(for: self.view, animated: true)
+        }
     }
 
 }
