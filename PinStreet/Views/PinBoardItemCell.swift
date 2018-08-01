@@ -26,11 +26,10 @@ class PinBoardItemCell: UICollectionViewCell {
         didSet {
             if let photo = photo {
                 imageView.image = photo.image
-                nameLabel.text = String(photo.caption)
-                print(photo.caption);
-                //dateLabel.text = "2016-05-29 15:42:02"
-                categoriesLabel.text = String(photo.comment)
-                print(photo.comment)
+                nameLabel.text = photo.caption
+                dateLabel.text = "2016-05-29 15:42:02"
+                categoriesLabel.text = photo.comment
+                
             }
         }
     }

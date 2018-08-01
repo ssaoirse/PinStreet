@@ -40,6 +40,7 @@ class PinBoardLayout: UICollectionViewLayout {
         return CGSize(width: contentWidth, height: contentHeight)
     }
     
+    
     override func prepare() {
         guard cache.isEmpty == true, let collectionView = collectionView else {
             return
@@ -58,9 +59,10 @@ class PinBoardLayout: UICollectionViewLayout {
         for item in 0 ..< collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
             
+            // TODO: Compute the size of label heights dynamically
             // fetch the image height from the delegate.
             let imageHeight = delegate.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath)
-            let paddedHeight = cellPadding * 2 + imageHeight + 150
+            let paddedHeight = cellPadding * 2 + imageHeight + 120
             
             let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: paddedHeight)
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
@@ -91,10 +93,9 @@ class PinBoardLayout: UICollectionViewLayout {
         return layoutAttributes
     }
     
-    
+    // Return the attributes for the item.
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }
-    
     
 }

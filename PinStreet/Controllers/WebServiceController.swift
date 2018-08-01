@@ -18,10 +18,10 @@ class WebServiceController: NSObject {
      * @param success           The completion block to be called on success, returns an array of PinBoard Items.
      * @param failure           The completion block to be called on failure, Returns an error message.
      */
-    func performGETWith(_ url: String,
-                        mimeType: String,
-                        success:@escaping (_ items: [PinBoardItem]) ->(),
-                        failure:@escaping (String?) ->()) {
+    func performGET(withURL url: String,
+                    mimeType: String,
+                    success:@escaping (_ items: [PinBoardItem]) ->(),
+                    failure:@escaping (String?) ->()) {
         
         // Set content type header.
         var headers = [String: String]()
@@ -32,18 +32,19 @@ class WebServiceController: NSObject {
                           parameters: nil,
                           encoding: JSONEncoding.default,
                           headers: headers)
-            .responseJSON { response in
-                // Check for success in response.
-                if (response.result.isSuccess) {
-                    
-                }
-                else {
-                    // notify error.
-                    failure(response.error?.localizedDescription)
-                }
+        .responseJSON { response in
+            // Check for success in response.
+            if (response.result.isSuccess) {
+                let dummy = [PinBoardItem]()
+                success(dummy)
             }
-            .responseString { (result) in
-                print(result)
+            else {
+                // notify error.
+                failure(response.error?.localizedDescription)
+            }
+        }
+        .responseString { (result) in
+            print(result)
         }
     }
     

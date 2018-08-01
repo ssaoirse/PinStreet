@@ -20,13 +20,13 @@ class PinBoardController: NSObject {
     func fetchPinBoardItems(success:@escaping (_ items: [PinBoardItem]) ->(),
                             failure:@escaping (String?) ->()) {
         let webserviceController = WebServiceController()
-        webserviceController.performGETWith(Constants.kRemoteURL,
-                                            mimeType: Constants.kMimeTypeJSON,
+        webserviceController.performGET(withURL: Constants.kRemoteURL,
+                                        mimeType: Constants.kMimeTypeJSON,
         success: { (items) in
-                                                
+            success(items)
         },
         failure: { (errorMessage) in
-            
+            failure(errorMessage)
         })
     }
 }

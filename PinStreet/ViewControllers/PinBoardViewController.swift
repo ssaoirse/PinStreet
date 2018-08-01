@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class PinBoardViewController: UICollectionViewController {
 
-    var items = Photo.allPhotos()
+    var items = [Photo]()//Photo.allPhotos()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,9 @@ class PinBoardViewController: UICollectionViewController {
         }
         collectionView?.backgroundColor = .clear
         collectionView?.contentInset = UIEdgeInsets(top: 23, left: 16, bottom: 10, right: 16)
+        
+        // Initiate request to fetch items.
+        fetchPinBoardItems()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,8 +45,17 @@ class PinBoardViewController: UICollectionViewController {
     
     // Fetch the pin board items from server.
     func fetchPinBoardItems() {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         let pinBoardController = PinBoardController()
-        //pinBoardController.fetchPinBoardItems(success: <#T##([PinBoardItem]) -> ()#>, failure: <#T##(String?) -> ()#>)
+        pinBoardController.fetchPinBoardItems(
+        success: { [unowned self](pinBoardItems) in
+            MBProgressHUD.hide(for: self.view, animated: true)
+            self.items.append(contentsOf: Photo.allPhotos())
+            self.collectionView?.reloadData()
+        },
+        failure: { (errorMsg) in
+            MBProgressHUD.hide(for: self.view, animated: true)
+        })
     }
 
 }
@@ -57,7 +70,8 @@ extension PinBoardViewController: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PinBoardItemCell", for: indexPath as IndexPath) as! PinBoardItemCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PinBoardItemCell",
+                                                      for: indexPath as IndexPath) as! PinBoardItemCell
         cell.photo = items[indexPath.item]
         return cell
     }
