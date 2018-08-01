@@ -60,7 +60,7 @@ class PinBoardLayout: UICollectionViewLayout {
             
             // fetch the image height from the delegate.
             let imageHeight = delegate.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath)
-            let paddedHeight = cellPadding * 2 + imageHeight
+            let paddedHeight = cellPadding * 2 + imageHeight + 150
             
             let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: paddedHeight)
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)

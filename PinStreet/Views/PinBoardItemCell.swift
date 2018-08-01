@@ -12,6 +12,9 @@ class PinBoardItemCell: UICollectionViewCell {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var categoriesLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,8 +26,11 @@ class PinBoardItemCell: UICollectionViewCell {
         didSet {
             if let photo = photo {
                 imageView.image = photo.image
-                //captionLabel.text = photo.caption
-                //commentLabel.text = photo.comment
+                nameLabel.text = String(photo.caption)
+                print(photo.caption);
+                //dateLabel.text = "2016-05-29 15:42:02"
+                categoriesLabel.text = String(photo.comment)
+                print(photo.comment)
             }
         }
     }

@@ -14,6 +14,42 @@ class WebServiceController: NSObject {
     /*!
      * @brief Fetch Pin Board items from specified service path / url.
      * @param url               The complete URL for the resource.
+     * @param mimeType          The mime type for the GET request.
+     * @param success           The completion block to be called on success, returns an array of PinBoard Items.
+     * @param failure           The completion block to be called on failure, Returns an error message.
+     */
+    func performGETWith(_ url: String,
+                        mimeType: String,
+                        success:@escaping (_ items: [PinBoardItem]) ->(),
+                        failure:@escaping (String?) ->()) {
+        
+        // Set content type header.
+        var headers = [String: String]()
+        headers["Content-Type"] = mimeType
+        
+        Alamofire.request(url,
+                          method: .get,
+                          parameters: nil,
+                          encoding: JSONEncoding.default,
+                          headers: headers)
+            .responseJSON { response in
+                // Check for success in response.
+                if (response.result.isSuccess) {
+                    
+                }
+                else {
+                    // notify error.
+                    failure(response.error?.localizedDescription)
+                }
+            }
+            .responseString { (result) in
+                print(result)
+        }
+    }
+    
+    /*!
+     * @brief Fetch Pin Board items from specified service path / url.
+     * @param url               The complete URL for the resource.
      * @param success           The completion block to be called on success, returns an array of PinBoard Items.
      * @param failure           The completion block to be called on failure, Returns an error message.
      */
@@ -45,5 +81,6 @@ class WebServiceController: NSObject {
                 print(result)
         }
     }
+    
 
 }

@@ -37,6 +37,13 @@ class PinBoardViewController: UICollectionViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    
+    // Fetch the pin board items from server.
+    func fetchPinBoardItems() {
+        let pinBoardController = PinBoardController()
+        //pinBoardController.fetchPinBoardItems(success: <#T##([PinBoardItem]) -> ()#>, failure: <#T##(String?) -> ()#>)
+    }
 
 }
 

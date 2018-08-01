@@ -18,6 +18,8 @@
 		2D9AEE8A2111968D00B504D8 /* Photos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D9AEE892111968D00B504D8 /* Photos.xcassets */; };
 		2D9AEE8D2111BEEF00B504D8 /* PinBoardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE8C2111BEEF00B504D8 /* PinBoardLayout.swift */; };
 		2D9AEE8F2111BF1B00B504D8 /* PinBoardItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE8E2111BF1B00B504D8 /* PinBoardItemCell.swift */; };
+		2D9AEE912111C96E00B504D8 /* PinBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE902111C96E00B504D8 /* PinBoardController.swift */; };
+		2D9AEE942111CAC500B504D8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D9AEE932111CAC500B504D8 /* Constants.swift */; };
 		367938D2B075295B8E88B4DB /* Pods_PinStreet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C5332F870CDF840B061E81D /* Pods_PinStreet.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +37,8 @@
 		2D9AEE892111968D00B504D8 /* Photos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Photos.xcassets; sourceTree = "<group>"; };
 		2D9AEE8C2111BEEF00B504D8 /* PinBoardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PinBoardLayout.swift; path = PinStreet/ViewControllers/PinBoardLayout.swift; sourceTree = SOURCE_ROOT; };
 		2D9AEE8E2111BF1B00B504D8 /* PinBoardItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PinBoardItemCell.swift; path = PinStreet/Views/PinBoardItemCell.swift; sourceTree = SOURCE_ROOT; };
+		2D9AEE902111C96E00B504D8 /* PinBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinBoardController.swift; sourceTree = "<group>"; };
+		2D9AEE932111CAC500B504D8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3C5332F870CDF840B061E81D /* Pods_PinStreet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PinStreet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3B992B00F4CA78939594B46 /* Pods-PinStreet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinStreet.release.xcconfig"; path = "Pods/Target Support Files/Pods-PinStreet/Pods-PinStreet.release.xcconfig"; sourceTree = "<group>"; };
 		C8F22904917969C5D6F1CD65 /* Pods-PinStreet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PinStreet.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PinStreet/Pods-PinStreet.debug.xcconfig"; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 		0402C4022110CEFF00DC21C2 /* PinStreet */ = {
 			isa = PBXGroup;
 			children = (
+				2D9AEE922111CAAD00B504D8 /* Utilities */,
 				2D9AEE862111965F00B504D8 /* Assets */,
 				2D9AEE832111926200B504D8 /* Views */,
 				2D9AEE802111828800B504D8 /* ViewControllers */,
@@ -91,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				0402C4162110D39F00DC21C2 /* WebServiceController.swift */,
+				2D9AEE902111C96E00B504D8 /* PinBoardController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -146,6 +152,14 @@
 				2D9AEE892111968D00B504D8 /* Photos.xcassets */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		2D9AEE922111CAAD00B504D8 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2D9AEE932111CAC500B504D8 /* Constants.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,10 +295,12 @@
 			files = (
 				2D9AEE8D2111BEEF00B504D8 /* PinBoardLayout.swift in Sources */,
 				0402C4172110D39F00DC21C2 /* WebServiceController.swift in Sources */,
+				2D9AEE912111C96E00B504D8 /* PinBoardController.swift in Sources */,
 				0402C4042110CEFF00DC21C2 /* AppDelegate.swift in Sources */,
 				2D9AEE8F2111BF1B00B504D8 /* PinBoardItemCell.swift in Sources */,
 				0402C41A2110D3F100DC21C2 /* PinBoardItem.swift in Sources */,
 				2D9AEE82211191B900B504D8 /* PinBoardViewController.swift in Sources */,
+				2D9AEE942111CAC500B504D8 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
