@@ -72,21 +72,32 @@ extension Category: Decodable {
 
 // MARK:- Pin Board Item -
 struct PinBoardItem {
+    let width: Int
+    let height: Int
+    let date: Date?
     let user: User
     let urls: Url
     let categories: [Category]
 }
 extension PinBoardItem: Decodable {
     private enum PinBoardItemCodingKeys: String, CodingKey {
+        case width
+        case height
+        case date = "created_at"
         case user
         case urls
         case categories
     }
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: PinBoardItemCodingKeys.self)
+        // NOTE: The images sizes are scaled to fit in the collection view.
+        width = try container.decode(Int.self, forKey: .width) / 8
+        height = try container.decode(Int.self, forKey: .height) / 8
+        date = try container.decode(Date.self, forKey: .date)
         user = try container.decode(User.self, forKey: .user)
         urls = try container.decode(Url.self, forKey: .urls)
         categories = try container.decode([Category].self, forKey: .categories)
     }
 }
+
 

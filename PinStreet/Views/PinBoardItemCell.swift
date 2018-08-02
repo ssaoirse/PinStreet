@@ -26,6 +26,11 @@ class PinBoardItemCell: UICollectionViewCell {
         if let pinBoardItem = item {
             // name:
             nameLabel.text = pinBoardItem.user.name
+            if let date = pinBoardItem.date {
+                let formatter = DateFormatter()
+                formatter.dateFormat = Constants.kDisplayDateFormat
+                dateLabel.text = formatter.string(from: date)
+            }
             
             // Categories:
             let titleArray = pinBoardItem.categories.map({ (catgory: Category) -> String in
@@ -33,6 +38,7 @@ class PinBoardItemCell: UICollectionViewCell {
             })
             categoriesLabel.text = titleArray.joined(separator: ", ")
             
+            // Image.
             let pinBoardController = PinBoardController()
             pinBoardController.fetchPinBoardImage(fromURL: pinBoardItem.urls.regular,
                                                   mimeType: "image/jpeg",

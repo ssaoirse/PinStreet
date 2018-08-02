@@ -30,7 +30,21 @@ class PinBoardController: NSObject {
             }
             
             do {
-                let apiResponse = try JSONDecoder().decode([PinBoardItem].self, from: data)
+                let jsonDecoder = JSONDecoder()
+                jsonDecoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
+                    let pinStreetFormatter = DateFormatter()
+                    pinStreetFormatter.dateFormat = Constants.kResponseDateFormat
+
+                    let container = try decoder.singleValueContainer()
+                    let dateStr = try container.decode(String.self)
+
+                    let tmpDate = pinStreetFormatter.date(from: dateStr)
+                    guard let date = tmpDate else {
+                        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode date string \(dateStr)")
+                    }
+                    return date
+                })
+                let apiResponse = try jsonDecoder.decode([PinBoardItem].self, from: data)
                 success(apiResponse)
             }
             catch {
