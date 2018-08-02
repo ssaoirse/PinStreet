@@ -8,7 +8,7 @@
 
 import Foundation
 
-// Service Class to perform REST Based HTTP methods.
+// Service Utility to perform REST Based HTTP methods.
 struct WebServiceController {
     
     /*!

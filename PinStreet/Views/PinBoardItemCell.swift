@@ -32,4 +32,18 @@ class PinBoardItemCell: UICollectionViewCell {
             }
         }
     }
+    
+    var pinBoardItem: PinBoardItem? {
+        didSet {
+            if let pinBoardItem = pinBoardItem {
+                nameLabel.text = pinBoardItem.user.name
+                
+                // Categories:
+                let titleArray = pinBoardItem.categories.map({ (catgory: Category) -> String in
+                    catgory.title
+                })
+                categoriesLabel.text = titleArray.joined(separator: ", ")
+            }
+        }
+    }
 }

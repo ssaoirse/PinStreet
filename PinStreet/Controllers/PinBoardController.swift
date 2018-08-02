@@ -30,15 +30,13 @@ class PinBoardController: NSObject {
             }
             
             do {
-                let jsonData = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-                print(jsonData)
+                let apiResponse = try JSONDecoder().decode([PinBoardItem].self, from: data)
+                success(apiResponse)
             }
             catch {
                 print(error)
+                failure(error.localizedDescription)
             }
-            
-            let result = [PinBoardItem]()
-            success(result)
         }
     }
 }

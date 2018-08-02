@@ -12,6 +12,7 @@ import MBProgressHUD
 class PinBoardViewController: UICollectionViewController {
 
     var items = [Photo]()//Photo.allPhotos()
+    var pinBoardItems = [PinBoardItem]()
     
     // During the first load, activity indicator is displayed,
     // At other times, Pull to refresh, activity indicator is hidden.
@@ -65,13 +66,15 @@ class PinBoardViewController: UICollectionViewController {
         self.showActivityIndicator()
         let pinBoardController = PinBoardController()
         pinBoardController.fetchPinBoardItems(
-        success: { [unowned self](pinBoardItems) in
+        success: { [unowned self] (pinBoardItems) in
             // Initiate request to load image.
             DispatchQueue.main.async {
+                print("Before:\(self.pinBoardItems.count)")
+                self.pinBoardItems.append(contentsOf: pinBoardItems)
+                print("After:\(self.pinBoardItems.count)")
                 let newItems = Photo.allPhotos()
-                print("Before:\(self.items.count)")
                 self.items.append(contentsOf: newItems)
-                print("After:\(self.items.count)")
+                
                 self.collectionView?.reloadData()
                 self.hideActivityIndicator()
             }
@@ -114,6 +117,9 @@ extension PinBoardViewController: UICollectionViewDelegateFlowLayout {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PinBoardItemCell",
                                                       for: indexPath as IndexPath) as! PinBoardItemCell
         cell.photo = items[indexPath.item]
+        if indexPath.item < pinBoardItems.count {
+            cell.pinBoardItem = pinBoardItems[indexPath.item]
+        }
         return cell
     }
     
