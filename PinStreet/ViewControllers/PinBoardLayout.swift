@@ -28,11 +28,15 @@ class PinBoardLayout: UICollectionViewLayout {
     fileprivate var contentHeight: CGFloat = 0
     
     fileprivate var contentWidth: CGFloat {
-        guard let collectionView = collectionView else {
-            return 0
+        get{
+            guard let collectionView = collectionView else {
+                return 0
+            }
+            let insets = collectionView.contentInset
+            return collectionView.bounds.width - (insets.left + insets.right)
         }
-        let insets = collectionView.contentInset
-        return collectionView.bounds.width - (insets.left + insets.right)
+        set {
+        }
     }
     
     // The size of the entire content.
@@ -96,6 +100,24 @@ class PinBoardLayout: UICollectionViewLayout {
     // Return the attributes for the item.
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
+    }
+
+    // Ensure bounds are calculated when content size changes.
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        if let oldWidth = collectionView?.bounds.width {
+            return oldWidth != newBounds.width
+        } else if let oldHeight = collectionView?.bounds.height {
+            return oldHeight != newBounds.height
+        }
+        return false
+    }
+    
+    override func invalidateLayout() {
+        super.invalidateLayout()
+        
+        cache = []
+        contentWidth = 0
+        contentHeight = 0
     }
     
 }

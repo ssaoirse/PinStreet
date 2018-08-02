@@ -29,7 +29,6 @@ class PinBoardItemCell: UICollectionViewCell {
                 nameLabel.text = photo.caption
                 dateLabel.text = "2016-05-29 15:42:02"
                 categoriesLabel.text = photo.comment
-                
             }
         }
     }
