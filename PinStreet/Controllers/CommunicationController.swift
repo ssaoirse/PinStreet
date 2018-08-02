@@ -44,7 +44,7 @@ class CommunicationController: NSObject {
             return
         }
         let request = createGETRequest(from: url, mimeType: mimeType)
-        let serviceController = WebServiceController()
+        var serviceController = WebServiceController()
         serviceController.performURLRequest(with: request) { [unowned self](data, error) in
             // Check if any error occured.
             if let error = error {

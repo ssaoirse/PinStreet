@@ -10,7 +10,8 @@ import Foundation
 
 // Service Utility to perform REST Based HTTP methods.
 struct WebServiceController {
-    
+    // reference to task.
+    var task: URLSessionDataTask?
     /*!
      * @brief Performs the GET HTTP service
      * @param url               The complete URL for the resource.
@@ -18,10 +19,10 @@ struct WebServiceController {
      * @param success           The completion block to be called on success, returns an array of PinBoard Items.
      * @param failure           The completion block to be called on failure, Returns an error message.
      */
-    func performURLRequest(with request: URLRequest,
-                           completion: @escaping(Data?, Error?) ->()) {
+    mutating func performURLRequest(with request: URLRequest,
+                                    completion: @escaping(Data?, Error?) ->()) {
         let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+        task = session.dataTask(with: request, completionHandler: { (data, response, error) in
             if let error = error {
                 print("Client Error: \(error)")
                 completion(nil, error)
@@ -42,7 +43,15 @@ struct WebServiceController {
             }
             completion(data, nil)
         })
-        task.resume()
+        task?.resume()
+    }
+    
+    
+    // Cancel a task.
+    func cancel() {
+        if task?.state == .running {
+            task?.cancel()
+        }
     }
 
 }
