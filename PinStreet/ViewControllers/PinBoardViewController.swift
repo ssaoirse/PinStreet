@@ -35,6 +35,7 @@ class PinBoardViewController: UICollectionViewController {
             layout.delegate = self
         }
         
+        self.title = "PinStreet"
         view.backgroundColor = .white
         collectionView?.backgroundColor = .clear
         collectionView?.contentInset = UIEdgeInsets(top: 23, left: 16, bottom: 10, right: 16)
@@ -76,8 +77,9 @@ class PinBoardViewController: UICollectionViewController {
                 if let msg = errorMsg {
                     print(msg)
                 }
+                self.showAlert(with: errorMsg)
+                self.collectionView?.reloadData()
             }
-
         })
     }
     
@@ -98,6 +100,20 @@ class PinBoardViewController: UICollectionViewController {
             MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
+    
+    // Show alert:
+    func showAlert(with message: String?) {
+        guard let msg = message else {
+            return
+        }
+        let alertView = UIAlertController.init(title: "Error",
+                                               message: msg,
+                                               preferredStyle: UIAlertControllerStyle.alert)
+        alertView.addAction(UIAlertAction(title: "Ok",
+                                          style: UIAlertActionStyle.default,
+                                          handler: nil))
+        self.present(alertView, animated: true, completion: nil)
+    }
 
 }
 
@@ -106,6 +122,14 @@ class PinBoardViewController: UICollectionViewController {
 extension PinBoardViewController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if self.isFirstLoad == false {
+            if pinBoardItems.count == 0 {
+                collectionView.setNoContentMessage("No Content Available...")
+            }
+            else {
+                collectionView.restore()
+            }
+        }
         return pinBoardItems.count
     }
     
@@ -131,4 +155,25 @@ extension PinBoardViewController: PinBoardLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         return CGFloat(pinBoardItems[indexPath.item].height)
     }
+}
+
+
+// MARK: - No Content Message.
+extension UICollectionView {
+    func setNoContentMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center;
+        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.sizeToFit()
+        
+        self.backgroundView = messageLabel;
+    }
+    
+    func restore() {
+        self.backgroundView = nil
+    }
+    
 }
