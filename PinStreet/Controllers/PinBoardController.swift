@@ -19,11 +19,18 @@ class PinBoardController: NSObject {
      */
     func fetchPinBoardItems(success:@escaping (_ items: [PinBoardItem]) ->(),
                             failure:@escaping (String?) ->()) {
-        let webserviceController = WebServiceController()
-        webserviceController.performGETService(withURL: Constants.kRemoteURL,
-                                               mimeType: Constants.kMimeTypeJSON)
+        let commsController = CommunicationController.shared()
+        commsController.performGET(with: Constants.kRemoteURL,
+                                   mimeType: Constants.kMimeTypeJSON)
         { (data, error) in
             
+            // Check for error.
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+            
+            // Validate data.
             guard let data = data else {
                 failure("Invalid response data")
                 return
@@ -65,11 +72,17 @@ class PinBoardController: NSObject {
                             mimeType: String,
                             success: @escaping (_ data: Data?) ->(),
                             failure: @escaping (String?)  ->()) {
-        let webserviceController = WebServiceController()
-        webserviceController.performGETService(withURL: url.absoluteString,
-                                               mimeType: mimeType)
+        let commsController = CommunicationController.shared()
+        commsController.performGET(with: url.absoluteString,
+                                   mimeType: mimeType)
         { (data, error) in
-            
+            // Check if error occured.
+            if let error = error {
+                let errMsg = String("Error: \(error.localizedDescription)")
+                failure(errMsg)
+                return
+            }
+            // Validate data.
             guard let data = data else {
                 failure("Invalid response data")
                 return

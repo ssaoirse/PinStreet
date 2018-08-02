@@ -18,11 +18,8 @@ struct WebServiceController {
      * @param success           The completion block to be called on success, returns an array of PinBoard Items.
      * @param failure           The completion block to be called on failure, Returns an error message.
      */
-    func performGETService(withURL url: String,
-                           mimeType: String,
+    func performURLRequest(with request: URLRequest,
                            completion: @escaping(Data?, Error?) ->()) {
-        let request = createGETRequest(from: url, mimeType: mimeType)
-        
         let session = URLSession.shared
         let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
             if let error = error {
@@ -31,12 +28,14 @@ struct WebServiceController {
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Server Error: ")
-                let err = NSError(domain: "", code: 400, userInfo: nil)
+                let code = (response as? HTTPURLResponse)!.statusCode
+                if let str  = request.url?.absoluteString {
+                    print("Server Error: - \(str))")
+                }
+                let err = NSError(domain: "HTTP Status Code: \(code)", code: code, userInfo: nil)
                 completion(nil, err)
                 return
             }
-            print("success")
             guard let _ = data else {
                 print("Invalid response data")
                 return
@@ -44,17 +43,6 @@ struct WebServiceController {
             completion(data, nil)
         })
         task.resume()
-    }
-    
-    
-    // Returns a URL request for the specified Path and mime type.
-    fileprivate func createGETRequest(from servicePath: String, mimeType: String) -> URLRequest {
-        var request = URLRequest(url: URL(string: servicePath)!,
-                                 cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
-                                 timeoutInterval: 10.0)
-        request.httpMethod = "GET"
-        request.setValue(mimeType, forHTTPHeaderField: "Content-Type")
-        return request
     }
 
 }
