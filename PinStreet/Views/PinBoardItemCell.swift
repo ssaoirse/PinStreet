@@ -22,28 +22,33 @@ class PinBoardItemCell: UICollectionViewCell {
         containerView.layer.masksToBounds = true
     }
     
-    var photo: Photo? {
-        didSet {
-            if let photo = photo {
-                imageView.image = photo.image
-                nameLabel.text = photo.caption
-                dateLabel.text = "2016-05-29 15:42:02"
-                categoriesLabel.text = photo.comment
-            }
-        }
-    }
-    
-    var pinBoardItem: PinBoardItem? {
-        didSet {
-            if let pinBoardItem = pinBoardItem {
-                nameLabel.text = pinBoardItem.user.name
-                
-                // Categories:
-                let titleArray = pinBoardItem.categories.map({ (catgory: Category) -> String in
-                    catgory.title
-                })
-                categoriesLabel.text = titleArray.joined(separator: ", ")
-            }
+    func configureItem(_ item: PinBoardItem?, atIndexpath indexPath: IndexPath) {
+        if let pinBoardItem = item {
+            // name:
+            nameLabel.text = pinBoardItem.user.name
+            
+            // Categories:
+            let titleArray = pinBoardItem.categories.map({ (catgory: Category) -> String in
+                catgory.title
+            })
+            categoriesLabel.text = titleArray.joined(separator: ", ")
+            
+            let pinBoardController = PinBoardController()
+            pinBoardController.fetchPinBoardImage(fromURL: pinBoardItem.urls.regular,
+                                                  mimeType: "image/jpeg",
+            success: { [unowned self](data) in
+                // Initiate request to load image.
+                DispatchQueue.main.async {
+                    if let data = data, let image = UIImage(data: data) {
+                        self.imageView.image = image
+                    }
+                }
+            },
+            failure: { (errorMsg) in
+                if let errorMsg = errorMsg {
+                    print(errorMsg)
+                }
+            })
         }
     }
 }

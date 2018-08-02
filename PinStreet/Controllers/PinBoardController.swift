@@ -39,4 +39,28 @@ class PinBoardController: NSObject {
             }
         }
     }
+    
+    /*!
+     * @brief Fetch Pin Board Image from specified URL.
+     * @param url               The complete URL for the Image.
+     * @param mimeType          The mime type for the image.
+     * @param success           The completion block to be called on success, returns an array of PinBoard Items.
+     * @param failure           The completion block to be called on failure, Returns an error message.
+     */
+    func fetchPinBoardImage(fromURL url: URL,
+                            mimeType: String,
+                            success: @escaping (_ data: Data?) ->(),
+                            failure: @escaping (String?)  ->()) {
+        let webserviceController = WebServiceController()
+        webserviceController.performGETService(withURL: url.absoluteString,
+                                               mimeType: mimeType)
+        { (data, error) in
+            
+            guard let data = data else {
+                failure("Invalid response data")
+                return
+            }
+            success(data)
+        }
+    }
 }

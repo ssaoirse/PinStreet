@@ -11,7 +11,6 @@ import MBProgressHUD
 
 class PinBoardViewController: UICollectionViewController {
 
-    var items = [Photo]()//Photo.allPhotos()
     var pinBoardItems = [PinBoardItem]()
     
     // During the first load, activity indicator is displayed,
@@ -69,12 +68,7 @@ class PinBoardViewController: UICollectionViewController {
         success: { [unowned self] (pinBoardItems) in
             // Initiate request to load image.
             DispatchQueue.main.async {
-                print("Before:\(self.pinBoardItems.count)")
                 self.pinBoardItems.append(contentsOf: pinBoardItems)
-                print("After:\(self.pinBoardItems.count)")
-                let newItems = Photo.allPhotos()
-                self.items.append(contentsOf: newItems)
-                
                 self.collectionView?.reloadData()
                 self.hideActivityIndicator()
             }
@@ -110,15 +104,14 @@ class PinBoardViewController: UICollectionViewController {
 extension PinBoardViewController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return pinBoardItems.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PinBoardItemCell",
                                                       for: indexPath as IndexPath) as! PinBoardItemCell
-        cell.photo = items[indexPath.item]
         if indexPath.item < pinBoardItems.count {
-            cell.pinBoardItem = pinBoardItems[indexPath.item]
+            cell.configureItem(pinBoardItems[indexPath.item], atIndexpath: indexPath)
         }
         return cell
     }
@@ -134,6 +127,7 @@ extension PinBoardViewController: UICollectionViewDelegateFlowLayout {
 extension PinBoardViewController: PinBoardLayoutDelegate {
     // Returns the image height of the current image.
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return items[indexPath.item].image.size.height
+        return 200
+        //return pinBoardItems[indexPath.item].image.size.height
     }
 }

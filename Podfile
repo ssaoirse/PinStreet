@@ -6,7 +6,6 @@ target 'PinStreet' do
 	use_frameworks!
 
 	# Pods for PinStreet
-	pod 'Alamofire', '4.5'
 	pod 'MBProgressHUD', '1.0.0'
 
 end
