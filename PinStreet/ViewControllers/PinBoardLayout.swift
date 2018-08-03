@@ -119,5 +119,4 @@ class PinBoardLayout: UICollectionViewLayout {
         contentWidth = 0
         contentHeight = 0
     }
-    
 }

@@ -26,7 +26,7 @@ class PinBoardController: NSObject {
             
             // Check for error.
             if let error = error {
-                print("Error: \(error.localizedDescription)")
+                failure(String("Error: \(error.localizedDescription)"))
                 return
             }
             

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Gaia Inc. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 // Class to manage caching of requested resources.
 class CacheController: NSObject {
@@ -50,6 +50,7 @@ class CacheController: NSObject {
         return nil
     }
     
+    // Removes specified entry from cache.
     func removeEntry(with url: String) {
         let strURL = url as NSString
         guard let nsData: NSData = documentCache.object(forKey: strURL) else {
@@ -64,5 +65,4 @@ class CacheController: NSObject {
     func clear() {
         self.documentCache.removeAllObjects()
     }
-    
 }
