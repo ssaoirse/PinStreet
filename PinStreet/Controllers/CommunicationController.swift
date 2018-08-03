@@ -23,6 +23,10 @@ class CommunicationController: NSObject {
         return sharedInstance
     }
     
+    // Array to hold active requests.
+    let activeRequests = [ActiveRequest]()
+    private var reqCounter: Int = 0
+    
     /*!
      * @brief Performs the GET HTTP service
      * @param servicePath       The complete Path for the resource.
@@ -39,6 +43,19 @@ class CommunicationController: NSObject {
             completion(data, nil)
             return
         }
+        
+        // Check if request already exists. and is active.
+        if var req = getActiveRequest(with: url) {
+            reqCounter += 1
+            req.reqIds.append(reqCounter)
+            req.completions.append(completion)
+        }
+        // Create a new active request.
+        else {
+            // Update the status.
+            var _ = addRequest(with: url, completion: completion)
+        }
+        
         let request = createGETRequest(from: url, mimeType: mimeType)
         var serviceController = WebServiceController()
         serviceController.performURLRequest(with: request) { (data, error) in
@@ -70,5 +87,24 @@ class CommunicationController: NSObject {
         request.httpMethod = "GET"
         request.setValue(mimeType, forHTTPHeaderField: "Content-Type")
         return request
+    }
+    
+    
+    // Returns the active request object for the specified path.
+    fileprivate func getActiveRequest(with servicePath: String) -> ActiveRequest? {
+        let filtered = activeRequests.filter { $0.servicePath == servicePath }
+        if filtered.count > 0 {
+            return filtered[0]
+        }
+        return nil
+    }
+    
+    // Creates and adds an active request to the Array.
+    fileprivate func addRequest(with servicePath: String,
+                                completion: RequestCompletion) -> ActiveRequest {
+        var req = ActiveRequest(reqServicePath: servicePath)
+        reqCounter += 1
+        req.reqIds.append(reqCounter)
+        return req
     }
 }
