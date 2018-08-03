@@ -18,4 +18,5 @@ struct Constants {
     // Date Formats:
     static let kResponseDateFormat          = "yyyy-MM-dd'T'HH:mm:ss-SS:SS"
     static let kDisplayDateFormat           = "MMM dd, yyyy hh:mm a"
+    static let kMaxCacheSize                = 10 * 1024 * 1024
 }

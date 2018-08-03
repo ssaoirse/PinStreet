@@ -6,7 +6,7 @@
 //  Copyright © 2018 Gaia Inc. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 // Class to manage communications and cache control.
 class CommunicationController: NSObject {
@@ -23,9 +23,6 @@ class CommunicationController: NSObject {
         return sharedInstance
     }
     
-    // Serves as the in memory cache.
-    private let documentCache = NSCache<NSString, NSData>()
-
     /*!
      * @brief Performs the GET HTTP service
      * @param servicePath       The complete Path for the resource.
@@ -36,28 +33,32 @@ class CommunicationController: NSObject {
                     mimeType: String,
                     completion: @escaping(Data?, Error?) ->()) {
         
-        // Check if already available.
-        let strURL = url as NSString
-        if let result = documentCache.object(forKey: strURL) {
-            let data = result as Data
+        // Check if already available in Cache
+        let cacheController = CacheController.shared()
+        if let data = cacheController.getEntry(with: url) {
             completion(data, nil)
             return
         }
         let request = createGETRequest(from: url, mimeType: mimeType)
         var serviceController = WebServiceController()
-        serviceController.performURLRequest(with: request) { [unowned self](data, error) in
+        serviceController.performURLRequest(with: request) { (data, error) in
             // Check if any error occured.
             if let error = error {
                 print("Service Error: \(error)")
                 completion(nil, error)
                 return
             }
+            // Validate data.
             if let data = data {
-                let nsData = NSData(data: data)
-                let nbrOfBytes = data.count
-                self.documentCache.setObject(nsData, forKey: strURL, cost: nbrOfBytes)
+                // Cache Data and notify listener.
+                cacheController.addEntry(with: url, data: data)
+                completion(data, nil)
+                return
             }
-            completion(data, nil)
+            
+            // else notify error.
+            let err = NSError(domain: "Invalid Data: 1001", code: 1001, userInfo: nil)
+            completion(nil, err)
         }
     }
     
